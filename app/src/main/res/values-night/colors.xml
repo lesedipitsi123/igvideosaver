@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF060507</color>
+    <color name="colorPrimaryVariant">#FF060507</color>
+    <color name="colorAccent">#3969E1</color>
+    <color name="colorSecondary">#FF03DAC5</color>
+    <color name="colorSecondaryVariant">#FF018786</color>
+    <color name="colorBackground">#080708</color>
+    <color name="colorText">#ffffff</color>
+    <color name="colorTextHint">#c0c1c2</color>
+    <color name="colorTextInput">#FF2D3035</color>
+</resources>
