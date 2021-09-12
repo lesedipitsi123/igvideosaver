@@ -1,4 +1,4 @@
-package com.devbytes.app.igvideosaver
+package com.devbytes.app.igvideosaver.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
