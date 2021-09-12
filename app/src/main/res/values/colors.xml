@@ -9,6 +9,7 @@
     <color name="colorText">#191919</color>
     <color name="colorTextHint">#5B5A62</color>
     <color name="colorTextInput">#f2f2f2</color>
+    <color name="colorStroke">#EDECEC</color>
     <color name="colorRipple">#CFCDD7</color>
 
     <color name="black">#FF000000</color>

@@ -9,4 +9,6 @@
     <color name="colorText">#ffffff</color>
     <color name="colorTextHint">#c0c1c2</color>
     <color name="colorTextInput">#FF2D3035</color>
+    <color name="colorStroke">#FF2D3035</color>
+
 </resources>

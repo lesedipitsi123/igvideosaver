@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">IGVideo Saver</string>
-    <string name="ed_hint_url">Video url</string>
+    <string name="ed_hint_url">Link</string>
     <string name="btn_download">Download</string>
 </resources>
