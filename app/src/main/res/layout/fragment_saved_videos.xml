@@ -14,10 +14,11 @@
         app:elevation="@dimen/dimen_0_dp">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:navigationIcon="@mipmap/outline_arrow_back_black_24"
             app:title="@string/fragment_saved"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:titleTextColor="@color/colorText" />
     </com.google.android.material.appbar.AppBarLayout>
 
