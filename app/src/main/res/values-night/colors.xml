@@ -10,6 +10,7 @@
     <color name="colorTextHint">#c0c1c2</color>
     <color name="colorTextInput">#FF2D3035</color>
     <color name="colorTextInputSecondary">#FF2D3035</color>
+    <color name="colorButtonStroke">@color/colorText</color>
     <color name="colorStroke">#FF2D3035</color>
 
 </resources>

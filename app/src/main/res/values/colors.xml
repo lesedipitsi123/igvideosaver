@@ -12,6 +12,7 @@
     <color name="colorTextInputSecondary">#ffffff</color>
     <color name="colorStroke">#EDECEC</color>
     <color name="colorRipple">#CFCDD7</color>
+    <color name="colorButtonStroke">@color/colorStroke</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

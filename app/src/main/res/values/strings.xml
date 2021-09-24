@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">IGVideo Saver</string>
-    <string name="ed_hint_url">Paste copy link</string>
+    <string name="app_name">Instagram Saver</string>
+    <string name="ed_hint_url">Paste link</string>
     <string name="btn_download">Download</string>
-    <string name="download_in_progress">Downloading video…</string>
+    <string name="download_in_progress">Downloading Video…</string>
     <string name="btn_share">Share</string>
-    <string name="btn_view">View all saved</string>
+    <string name="btn_view">See All</string>
+    <string name="btn_paste">Paste</string>
+    <string name="err_empty_input">Please paste in link</string>
+    <string name="notification_download_in_progress">Download will start shortly…</string>
+    <string name="notification_download_finished">Finished download.</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_saved">Videos</string>
 </resources>

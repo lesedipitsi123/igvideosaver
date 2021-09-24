@@ -13,7 +13,10 @@ import android.util.Log
 import com.devbytes.app.igvideosaver.utils.*
 import com.devbytes.app.igvideosaver.R
 import com.devbytes.app.igvideosaver.utils.Constants.KEY_VIDEO_LINK
-
+import com.devbytes.app.igvideosaver.utils.Constants.VIDEO_TYPE
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DownloadWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
     companion object {
@@ -31,14 +34,26 @@ class DownloadWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, param
                 throw IllegalArgumentException("Invalid input uri")
             }
 
-            val downloadLink = getInstagramVideoLink(resourceUri)
+            val timestamp = with(Calendar.getInstance()) {
+                SimpleDateFormat("yyyyddMMHHmmss", Locale.getDefault()).format(time)
+            }
 
-            val uri: Uri = Uri.parse(downloadLink)
+            val videoMeta = getVideoMetaData(resourceUri)
+
+
+            if (videoMeta.type != VIDEO_TYPE)
+                return Result.failure()
+
+            val fileName =
+                String.format(Locale.getDefault(), "ig_video_%s.%s", timestamp, videoMeta.getFileExtension())
+            val uri: Uri = Uri.parse(videoMeta.link)
 
             val request = DownloadManager.Request(uri).apply {
-                setTitle(appContext.getString(R.string.app_name))
-                setDescription(appContext.getString(R.string.download_in_progress))
-                setDestinationInExternalFilesDir(appContext, Environment.DIRECTORY_DOWNLOADS, "test.mp4")
+                setTitle(fileName)
+                setDescription(appContext.getString(R.string.app_name))
+                setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS, File.separator + "InstagramSaver" + File.separator + fileName
+                )
                 setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
             }
