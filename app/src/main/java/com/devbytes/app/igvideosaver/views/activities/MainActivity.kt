@@ -2,12 +2,13 @@ package com.devbytes.app.igvideosaver.views.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.devbytes.app.igvideosaver.R
 
 import com.devbytes.app.igvideosaver.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : FragmentActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

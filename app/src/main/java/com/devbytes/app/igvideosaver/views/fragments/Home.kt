@@ -1,16 +1,22 @@
 package com.devbytes.app.igvideosaver.views.fragments
 
 import android.Manifest
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.DownloadManager
 import android.content.*
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation.findNavController
@@ -25,14 +31,17 @@ import com.google.android.material.snackbar.Snackbar
 
 class Home : Fragment() {
 
-    private lateinit var _binding: FragmentHomeBinding
-    private val binding get() = _binding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: DownloadViewModel by lazy { ViewModelProvider(this).get(DownloadViewModel::class.java) }
-    private val permissionUtils: PermissionUtils = PermissionUtils(requireActivity())
+    private lateinit var permissionUtils: PermissionUtils
     private lateinit var downloadSnackBar: Snackbar
+    private lateinit var requestMultiplePermissions : ActivityResultLauncher<Array<String>>
     private lateinit var clipboard: ClipboardManager
 
     companion object {
+        private const val TAG = "HomeFragment"
+
         @JvmStatic
         fun newInstance() =
             Home()
@@ -58,38 +67,10 @@ class Home : Fragment() {
         configure()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == Constants.READ_WRITE_CODE) {
-            if (grantResults.isEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(
-                    requireContext(),
-                    "Please enable permissions to allow for videos to be saved.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                val copyLink = binding.edCopyLink.text.toString()
-
-                if (!TextUtils.isEmpty(copyLink)) {
-                    downloadSnackBar.show()
-                    viewModel.downloadVideo(copyLink)
-                } else
-                    Snackbar.make(
-                        binding.root,
-                        getString(R.string.err_empty_input),
-                        Snackbar.LENGTH_SHORT
-                    )
-                        .show()
-            }
-        }
-    }
-
     private fun configure() {
+        permissionUtils = PermissionUtils(requireActivity())
+        configurePermissions()
+
         clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
         with(binding) {
@@ -104,14 +85,7 @@ class Home : Fragment() {
             }
 
             btnDownload.setOnClickListener {
-
-                permissionUtils.requestPermission(
-                    Constants.READ_WRITE_CODE,
-                    arrayOf(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-                )
+                checkPermissions()
             }
 
             btnPaste.setOnClickListener {
@@ -145,6 +119,59 @@ class Home : Fragment() {
         )
     }
 
+    private fun checkPermissions() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(TAG, "Request Permissions")
+            requestMultiplePermissions.launch(
+                arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+            )
+        } else {
+            val copyLink = binding.edCopyLink.text.toString()
+
+            if (!TextUtils.isEmpty(copyLink)) {
+                downloadSnackBar.show()
+                viewModel.downloadVideo(copyLink)
+            } else
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.err_empty_input),
+                    Snackbar.LENGTH_SHORT
+                )
+                    .show()
+
+            Log.d(TAG, "Permission Already Granted")
+        }
+    }
+
+    private fun configurePermissions() {
+        requestMultiplePermissions = requireActivity().registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.entries.forEach {
+                Log.d(TAG, "${it.key} = ${it.value}")
+            }
+            if (permissions[READ_EXTERNAL_STORAGE] == true && permissions[WRITE_EXTERNAL_STORAGE] == true) {
+                Log.d(TAG, "Permission granted")
+                val copyLink = binding.edCopyLink.text.toString()
+
+                if (!TextUtils.isEmpty(copyLink)) {
+                    downloadSnackBar.show()
+                    viewModel.downloadVideo(copyLink)
+                } else
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.err_empty_input),
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+            } else {
+                Log.d(TAG, "Permission not granted")
+            }
+        }
+    }
+
     private fun workInfoObserver(): Observer<List<WorkInfo>> {
         return Observer { listOfWorkInfo ->
 
@@ -174,6 +201,11 @@ class Home : Fragment() {
                 downloadSnackBar.show()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        requireActivity().unregisterReceiver(onDownloadComplete)
     }
 
     private var onDownloadComplete: BroadcastReceiver = object : BroadcastReceiver() {
