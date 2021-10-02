@@ -105,5 +105,6 @@
     <dimen name="dimen_14_dp">14dp</dimen>
     <dimen name="dimen_22_dp">22dp</dimen>
     <dimen name="dimen_20_dp">20dp</dimen>
+    <dimen name="dimen_196_dp">196dp</dimen>
 
 </resources>

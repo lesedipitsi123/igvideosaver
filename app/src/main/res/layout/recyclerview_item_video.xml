@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimen_8_dp"
+    android:clickable="true"
+    android:padding="@dimen/dimen_8_dp"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/colorBackground"
+    app:cardCornerRadius="@dimen/dimen_10_dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/containerThumbnail"
+        android:layout_width="@dimen/dimen_54_dp"
+        android:layout_height="@dimen/dimen_54_dp"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:focusable="true"
+        app:cardElevation="@dimen/dimen_0_dp"
+        android:foreground="?selectableItemBackground"
+        app:cardBackgroundColor="@color/colorBackground"
+        app:cardCornerRadius="@dimen/dimen_4_dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            tools:src="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMore"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="@dimen/dimen_42_dp"
+        android:layout_height="@dimen/dimen_42_dp"
+        android:contentDescription="@string/download"
+        android:gravity="center"
+        android:insetTop="@dimen/dimen_0_dp"
+        android:insetRight="@dimen/dimen_0_dp"
+        android:insetBottom="@dimen/dimen_0_dp"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="@dimen/dimen_22_dp"
+        app:icon="@mipmap/outline_more_vert_black_24"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/dimen_0_dp"
+        app:iconSize="@dimen/dimen_24_dp"
+        app:iconTint="@color/colorTextHint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="@color/colorRipple" />
+
+    <TextView
+        android:id="@+id/caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_12_dp"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/sample_caption"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@color/colorText"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btnMore"
+        app:layout_constraintStart_toEndOf="@id/containerThumbnail"
+        app:layout_constraintTop_toTopOf="@id/containerThumbnail" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/link"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/dimen_8_dp"-->
+<!--        android:layout_marginEnd="@dimen/dimen_8_dp"-->
+<!--        android:ellipsize="end"-->
+<!--        android:maxLines="1"-->
+<!--        android:text="@string/sample_link"-->
+<!--        android:textAlignment="textStart"-->
+<!--        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"-->
+<!--        android:textColor="@color/colorTextHint"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/date"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/btnDownload"-->
+<!--        app:layout_constraintStart_toEndOf="@id/containerThumbnail"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/caption" />-->
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_12_dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/sample_date"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@color/colorTextHint"
+        app:layout_constraintBottom_toBottomOf="@+id/containerThumbnail"
+        app:layout_constraintEnd_toStartOf="@id/btnMore"
+        app:layout_constraintStart_toEndOf="@id/containerThumbnail"
+        app:layout_constraintTop_toBottomOf="@id/caption"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

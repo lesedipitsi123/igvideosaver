@@ -17,8 +17,8 @@
 
     <fragment
         android:id="@+id/history"
-        android:name="com.devbytes.app.igvideosaver.views.fragments.SavedVideos"
+        android:name="com.devbytes.app.igvideosaver.views.fragments.Videos"
         android:label="History"
-        tools:layout="@layout/fragment_saved_videos" />
+        tools:layout="@layout/fragment_videos" />
 
 </navigation>

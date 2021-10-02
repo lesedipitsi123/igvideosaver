@@ -3,11 +3,10 @@ package com.devbytes.app.igvideosaver.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.work.*
-import com.devbytes.app.igvideosaver.tasks.DownloadWorker
-import com.devbytes.app.igvideosaver.utils.Constants.KEY_VIDEO_LINK
-import com.devbytes.app.igvideosaver.utils.Constants.TAG_OUTPUT
+import com.devbytes.app.igvideosaver.workers.DownloadWorker
+import com.devbytes.app.igvideosaver.utils.ConstantsUtils.KEY_VIDEO_LINK
+import com.devbytes.app.igvideosaver.utils.ConstantsUtils.TAG_OUTPUT
 
 class DownloadViewModel(application: Application) : AndroidViewModel(application) {
     private val workManager = WorkManager.getInstance(application)

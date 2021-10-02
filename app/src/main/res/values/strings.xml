@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Instagram Saver</string>
+    <string name="app_name">Social Grab</string>
     <string name="ed_hint_url">Paste link</string>
     <string name="btn_download">Download</string>
     <string name="download_in_progress">Downloading Video…</string>
@@ -11,4 +11,10 @@
     <string name="notification_download_finished">Finished download.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_saved">Videos</string>
+    <string name="download">Download</string>
+    <string name="history">History</string>
+    <string name="sample_date">17 September</string>
+    <string name="sample_link">https://www.instagram.com/p/CTt8mj5I10r/?utm_source=ig_web_copy_link</string>
+    <string name="sample_caption">Stay True Sounds</string>
+    <string name="links_history">Links You\'ve Downloaded</string>
 </resources>

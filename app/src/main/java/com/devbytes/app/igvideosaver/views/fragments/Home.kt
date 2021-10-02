@@ -1,6 +1,5 @@
 package com.devbytes.app.igvideosaver.views.fragments
 
-import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.DownloadManager
@@ -19,12 +18,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.work.WorkInfo
 import com.devbytes.app.igvideosaver.R
 import com.devbytes.app.igvideosaver.databinding.FragmentHomeBinding
-import com.devbytes.app.igvideosaver.utils.Constants
 import com.devbytes.app.igvideosaver.utils.PermissionUtils
 import com.devbytes.app.igvideosaver.viewmodels.DownloadViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -34,9 +31,8 @@ class Home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DownloadViewModel by lazy { ViewModelProvider(this).get(DownloadViewModel::class.java) }
-    private lateinit var permissionUtils: PermissionUtils
     private lateinit var downloadSnackBar: Snackbar
-    private lateinit var requestMultiplePermissions : ActivityResultLauncher<Array<String>>
+    private lateinit var requestMultiplePermissions: ActivityResultLauncher<Array<String>>
     private lateinit var clipboard: ClipboardManager
 
     companion object {
@@ -68,8 +64,6 @@ class Home : Fragment() {
     }
 
     private fun configure() {
-        permissionUtils = PermissionUtils(requireActivity())
-        configurePermissions()
 
         clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
@@ -125,7 +119,8 @@ class Home : Fragment() {
                 READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            Log.d(TAG, "Request Permissions")
+            configurePermissions()
+
             requestMultiplePermissions.launch(
                 arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
             )
@@ -148,28 +143,30 @@ class Home : Fragment() {
     }
 
     private fun configurePermissions() {
-        requestMultiplePermissions = requireActivity().registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            permissions.entries.forEach {
-                Log.d(TAG, "${it.key} = ${it.value}")
-            }
-            if (permissions[READ_EXTERNAL_STORAGE] == true && permissions[WRITE_EXTERNAL_STORAGE] == true) {
-                Log.d(TAG, "Permission granted")
-                val copyLink = binding.edCopyLink.text.toString()
 
-                if (!TextUtils.isEmpty(copyLink)) {
-                    downloadSnackBar.show()
-                    viewModel.downloadVideo(copyLink)
-                } else
-                    Snackbar.make(
-                        binding.root,
-                        getString(R.string.err_empty_input),
-                        Snackbar.LENGTH_SHORT
-                    )
-                        .show()
-            } else {
-                Log.d(TAG, "Permission not granted")
+        requestMultiplePermissions =
+            requireActivity().registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+                permissions.entries.forEach {
+                    Log.d(TAG, "${it.key} = ${it.value}")
+                }
+                if (permissions[READ_EXTERNAL_STORAGE] == true && permissions[WRITE_EXTERNAL_STORAGE] == true) {
+                    Log.d(TAG, "Permission granted")
+                    val copyLink = binding.edCopyLink.text.toString()
+
+                    if (!TextUtils.isEmpty(copyLink)) {
+                        downloadSnackBar.show()
+                        viewModel.downloadVideo(copyLink)
+                    } else
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.err_empty_input),
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                } else {
+                    Log.d(TAG, "Permission not granted")
+                }
             }
-        }
     }
 
     private fun workInfoObserver(): Observer<List<WorkInfo>> {
