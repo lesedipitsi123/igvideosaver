@@ -1,22 +1,19 @@
-package com.devbytes.app.igvideosaver.views.fragments.adapters
+package com.devbytes.app.igvideosaver.ui.fragments.adapters
 
 import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.devbytes.app.igvideosaver.R
-import com.devbytes.app.igvideosaver.data.entites.VideoEntity
-import com.devbytes.app.igvideosaver.databinding.RecyclerviewItemVideoBinding
+import com.devbytes.app.igvideosaver.data.entites.InstagramMedia
 import com.devbytes.app.igvideosaver.databinding.RecyclerviewItemVideoGridBinding
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
-class VideoListAdapter(private val context: Context) : ListAdapter<VideoEntity, VideoListAdapter.VideoViewHolder>(VideoComparator()) {
+class VidoesListAdapter(private val context: Context) : ListAdapter<InstagramMedia, VidoesListAdapter.VideoViewHolder>(VideoComparator()) {
 
     init {
         hasStableIds()
@@ -28,10 +25,10 @@ class VideoListAdapter(private val context: Context) : ListAdapter<VideoEntity, 
 
     class VideoViewHolder(private val binding: RecyclerviewItemVideoGridBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(entity: VideoEntity) {
+        fun bind(entity: InstagramMedia) {
             with(binding) {
                 caption.text = entity.caption
-                entity.date?.let {
+                entity.timestamp.let {
                     date.text =  SimpleDateFormat("dd MMMM", Locale.getDefault()).format(it)
                 }
                 Picasso.get()
@@ -48,13 +45,13 @@ class VideoListAdapter(private val context: Context) : ListAdapter<VideoEntity, 
         }
     }
 
-    class VideoComparator : DiffUtil.ItemCallback<VideoEntity>() {
-        override fun areItemsTheSame(oldItem: VideoEntity, newItem: VideoEntity): Boolean {
+    class VideoComparator : DiffUtil.ItemCallback<InstagramMedia>() {
+        override fun areItemsTheSame(oldItem: InstagramMedia, newItem: InstagramMedia): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: VideoEntity, newItem: VideoEntity): Boolean {
-            return oldItem.link == newItem.link
+        override fun areContentsTheSame(oldItem: InstagramMedia, newItem: InstagramMedia): Boolean {
+            return oldItem.id == newItem.id
         }
     }
 

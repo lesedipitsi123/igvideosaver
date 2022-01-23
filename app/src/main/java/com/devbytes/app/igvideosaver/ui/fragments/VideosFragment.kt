@@ -1,5 +1,6 @@
-package com.devbytes.app.igvideosaver.views.fragments
+package com.devbytes.app.igvideosaver.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,30 +10,17 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.devbytes.app.igvideosaver.R
-import com.devbytes.app.igvideosaver.SocialGrabApplication
 import com.devbytes.app.igvideosaver.databinding.FragmentVideosBinding
-import com.devbytes.app.igvideosaver.viewmodels.VideoViewModel
-import com.devbytes.app.igvideosaver.viewmodels.VideoViewModelFactory
-import com.devbytes.app.igvideosaver.views.fragments.adapters.VideoListAdapter
+import com.devbytes.app.igvideosaver.ui.fragments.adapters.VidoesListAdapter
+import com.devbytes.app.igvideosaver.ui.viewmodels.InstagramMediaViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class Videos : Fragment() {
-
+@AndroidEntryPoint
+class VideosFragment : Fragment() {
     private var _binding: FragmentVideosBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: VideoViewModel by viewModels { VideoViewModelFactory((requireActivity().application as SocialGrabApplication).repository) }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            Videos()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel: InstagramMediaViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,10 +36,14 @@ class Videos : Fragment() {
         configure()
     }
 
-    private fun configure() {
-        viewModel.get()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
 
-        val adapter = VideoListAdapter(requireContext())
+    }
+
+    private fun configure() {
+        val adapter = VidoesListAdapter(requireContext())
+        viewModel.getVideos()
 
         with(binding) {
             toolbar.navigationIcon = AppCompatResources.getDrawable(
@@ -69,7 +61,6 @@ class Videos : Fragment() {
                 this.adapter = adapter
             }
         }
-
 
         viewModel.videosLiveData.observe(viewLifecycleOwner)
         { videos ->

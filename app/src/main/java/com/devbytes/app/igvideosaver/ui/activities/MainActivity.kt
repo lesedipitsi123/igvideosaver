@@ -1,11 +1,12 @@
-package com.devbytes.app.igvideosaver.views.activities
+package com.devbytes.app.igvideosaver.ui.activities
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import com.devbytes.app.igvideosaver.R
 
 import com.devbytes.app.igvideosaver.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : FragmentActivity() {
     private lateinit var binding: ActivityMainBinding
 

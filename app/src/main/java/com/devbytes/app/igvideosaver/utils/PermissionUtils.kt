@@ -3,8 +3,11 @@ package com.devbytes.app.igvideosaver.utils
 import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
+import dagger.hilt.android.scopes.ActivityScoped
+import javax.inject.Inject
 
-class PermissionUtils(private val activity: Activity){
+@ActivityScoped
+class PermissionUtils @Inject constructor(private val activity: Activity){
 
     fun requestPermission(requestCode : Int, permissions: Array<String>) {
         if (!hasPermissions(permissions)) {

@@ -1,4 +1,4 @@
-package com.devbytes.app.igvideosaver.views.fragments
+package com.devbytes.app.igvideosaver.ui.fragments
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -16,35 +16,24 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.work.WorkInfo
 import com.devbytes.app.igvideosaver.R
 import com.devbytes.app.igvideosaver.databinding.FragmentHomeBinding
-import com.devbytes.app.igvideosaver.utils.PermissionUtils
-import com.devbytes.app.igvideosaver.viewmodels.DownloadViewModel
+import com.devbytes.app.igvideosaver.ui.viewmodels.InstagramMediaViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class Home : Fragment() {
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DownloadViewModel by lazy { ViewModelProvider(this).get(DownloadViewModel::class.java) }
+    private val viewModel: InstagramMediaViewModel by viewModels()
     private lateinit var downloadSnackBar: Snackbar
     private lateinit var requestMultiplePermissions: ActivityResultLauncher<Array<String>>
     private lateinit var clipboard: ClipboardManager
 
     companion object {
         private const val TAG = "HomeFragment"
-
-        @JvmStatic
-        fun newInstance() =
-            Home()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -129,7 +118,7 @@ class Home : Fragment() {
 
             if (!TextUtils.isEmpty(copyLink)) {
                 downloadSnackBar.show()
-                viewModel.downloadVideo(copyLink)
+                viewModel.fetch(copyLink)
             } else
                 Snackbar.make(
                     binding.root,
@@ -155,7 +144,7 @@ class Home : Fragment() {
 
                     if (!TextUtils.isEmpty(copyLink)) {
                         downloadSnackBar.show()
-                        viewModel.downloadVideo(copyLink)
+                        viewModel.fetch(copyLink)
                     } else
                         Snackbar.make(
                             binding.root,
@@ -167,37 +156,6 @@ class Home : Fragment() {
                     Log.d(TAG, "Permission not granted")
                 }
             }
-    }
-
-    private fun workInfoObserver(): Observer<List<WorkInfo>> {
-        return Observer { listOfWorkInfo ->
-
-            // Note that these next few lines grab a single WorkInfo if it exists
-            // This code could be in a Transformation in the ViewModel; they are included here
-            // so that the entire process of displaying a WorkInfo is in one location.
-
-            // If there are no matching work info, do nothing
-            if (listOfWorkInfo.isNullOrEmpty()) {
-                return@Observer
-            }
-
-            // We only care about the one output status.
-            // Every continuation has only one worker tagged TAG_OUTPUT
-            val workInfo = listOfWorkInfo[0]
-
-            if (workInfo.state.isFinished) {
-                downloadSnackBar.setText(requireContext().getString(R.string.notification_download_finished))
-                downloadSnackBar.show()
-
-                // Normally this processing, which is not directly related to drawing views on
-                // screen would be in the ViewModel. For simplicity we are keeping it here.
-
-                // If there is an output file show "See File" button
-
-            } else {
-                downloadSnackBar.show()
-            }
-        }
     }
 
     override fun onDestroy() {

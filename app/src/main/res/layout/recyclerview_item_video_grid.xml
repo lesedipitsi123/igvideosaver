@@ -14,7 +14,7 @@
     android:foreground="?selectableItemBackground"
     android:padding="@dimen/dimen_8_dp"
     app:cardBackgroundColor="@color/colorBackground"
-    app:cardCornerRadius="@dimen/dimen_14_dp"
+    app:cardCornerRadius="@dimen/dimen_16_dp"
     app:cardElevation="@dimen/dimen_0_dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,13 +41,13 @@
             android:insetTop="@dimen/dimen_0_dp"
             android:insetRight="@dimen/dimen_0_dp"
             android:insetBottom="@dimen/dimen_0_dp"
-            app:backgroundTint="@color/colorTextInput"
+            app:backgroundTint="@color/white"
             app:cornerRadius="@dimen/dimen_22_dp"
             app:icon="@mipmap/ic_download_24"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/dimen_0_dp"
             app:iconSize="@dimen/dimen_20_dp"
-            app:iconTint="@color/colorText"
+            app:iconTint="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="@color/colorRipple" />

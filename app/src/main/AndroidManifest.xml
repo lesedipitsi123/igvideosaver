@@ -20,7 +20,7 @@
         android:fullBackupContent="true">
 
         <activity
-            android:name=".views.activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
